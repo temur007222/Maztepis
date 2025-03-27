@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/gradient_background"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Number"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/selected_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/currentNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Number: -"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/totalPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Points: 0"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/gameBank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Bank: 0"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/currentPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Player: Human"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Multiplication buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/multiplyBy3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×3"
+            android:background="@drawable/home_button"
+            android:layout_margin="4dp"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/multiplyBy4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×4"
+            android:background="@drawable/home_button"
+            android:layout_margin="4dp"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/multiplyBy5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×5"
+            android:background="@drawable/home_button"
+            android:layout_margin="4dp"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>

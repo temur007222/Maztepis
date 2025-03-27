@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.uz.maztepis.ui.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_playerSelectionFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.uz.maztepis.ui.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home_fragment">
+
+        <action
+            android:id="@+id/action_homeFragment_to_gameFragment"
+            app:destination="@id/gameFragment">
+            <argument
+                android:name="gameMode"
+                app:argType="string" />
+            <argument
+                android:name="aiAlgorithm"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.uz.maztepis.ui.GameFragment"
+        android:label="GameFragment">
+
+        <argument
+            android:name="gameMode"
+            app:argType="string" />
+        <argument
+            android:name="aiAlgorithm"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_resultFragment"
+            app:destination="@id/resultFragment">
+            <argument
+                android:name="gameSteps"
+                app:argType="string[]" />
+            <argument
+                android:name="winner"
+                app:argType="string" />
+            <argument
+                android:name="gameMode"
+                app:argType="string" />
+            <argument
+                android:name="aiAlgorithm"
+                app:argType="string" />
+
+            <argument
+                android:name="startingPlayer"
+                app:argType="string"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.uz.maztepis.ui.ResultFragment"
+        android:label="ResultFragment">
+
+        <argument
+            android:name="gameSteps"
+            app:argType="string[]"
+            app:nullable="false" />
+
+        <argument
+            android:name="winner"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="startingPlayer"
+            app:argType="string"/>
+
+        <action
+            android:id="@+id/action_resultFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+
+        <action
+            android:id="@+id/action_resultFragment_to_playerSelectionFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+</navigation>

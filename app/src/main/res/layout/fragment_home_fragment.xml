@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@drawable/gradient_background"
+    tools:context=".ui.HomeFragment">
+
+    <ImageView
+        android:id="@+id/settings_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settings_ic"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/game_rule_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/about"
+        android:padding="5dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lilita_one_regular"
+        android:text="Maztepis"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/computerButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_button"
+        android:text="Play!"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:padding="15dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/gameModeRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp">
+
+        <RadioButton
+            android:id="@+id/humanVsHuman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Human vs. Human"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+        <RadioButton
+            android:id="@+id/humanVsComputer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Human vs. Computer"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/aiAlgorithmRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/gameModeRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:visibility="gone">
+
+        <RadioButton
+            android:id="@+id/minimaxAlgorithm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minimax Algorithm"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+        <RadioButton
+            android:id="@+id/alphaBetaAlgorithm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alpha-Beta Pruning"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/startingPlayerRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/aiAlgorithmRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/radio_human"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starts Human"
+            android:checked="true"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_computer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starts Computer"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="24dp" />
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

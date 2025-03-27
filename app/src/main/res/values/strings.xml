@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Maztepis</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="game_rule">"Starting the Game:\n"
+						"The player picks a number between 20 and 30 to start the game.\n"
+						"\n"
+						"How to Play:\n"
+						"\n"
+						"Players take turns multiplying the current number by 3, 4, or 5.\n"
+						"If the result is even, 1 point is added to the score.\n"
+						"If the result is odd, 1 point is subtracted from the score.\n"
+						"If the result ends in 0 or 5, 1 point is added to the game bank.\n"
+						"Ending the Game:\n"
+						"The game ends when the number is 3000 or more.\n"
+						"\n"
+						"Final Scoring:\n"
+						"\n"
+						"If the score is even, the points in the bank are subtracted.\n"
+						"If the score is odd, the points in the bank are added.\n"
+						"Winner:\n"
+						"\n"
+						"If the final score is even, the player who started the game wins.\n"
+						"If the final score is odd, the other player wins."</string>
+
+
+	<string name="no_game_mode_selected">no_game_mode_selected</string>
+	<string name="no_algorithm_selected">no_algorithm_selected</string>
+	<string name="current_number">current_number</string>
+	<string name="total_points">total_points</string>
+	<string name="game_bank">game_bank</string>
+	<string name="current_player">current_player</string>
+    <string name="algorithm_label">algorithm_label</string>
+
+	<string name="winner_label">Winner: %1$s</string>
+	<string name="player_computer">Computer</string>
+	<string name="player_human">You</string>
+	<string name="player_human_2">Player 2</string>
+	<string name="unknown_winner">Unknown</string>
+
+	<string name="algorithm_minimax">Minimax</string>
+	<string name="algorithm_alpha_beta">Alpha-Beta</string>
+
+	<string name="mode_human_vs_human">Human vs Human</string>
+	<string name="mode_human_vs_computer">Human vs Computer</string>
+
+	<string name="current_player_label">Current Player: %1$s</string>
+	<string name="player_1">Player 1</string>
+	<string name="player_2">Player 2</string>
+	<string name="player_you">You</string>
+
+</resources>
