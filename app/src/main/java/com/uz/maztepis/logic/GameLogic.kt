@@ -6,6 +6,7 @@ class GameLogic {
 	private val gameSteps = mutableListOf<String>()
 	private var aiAlgorithm: AIAlgorithm = AIAlgorithm.MINIMAX
 	private var gameMode: GameMode = GameMode.HUMAN_VS_COMPUTER
+	private var gameTree: GameTreeNode? = null
 
 	fun startGame(
 		startNumber: Int,
@@ -19,6 +20,8 @@ class GameLogic {
 		gameState = GameState(startNumber, 0, 0, startingPlayer)
 		gameSteps.clear()
 		gameSteps.add("Game started with number: $startNumber by $startingPlayer")
+
+		gameTree = buildGameTree(gameState, depth = 3)
 	}
 
 	fun makeMove(multiplier: Int) {
@@ -26,6 +29,8 @@ class GameLogic {
 		val currentPlayer = gameState.currentPlayer
 		gameState = applyMove(multiplier, currentPlayer)
 		updateGameSteps(currentPlayer, multiplier)
+
+		gameTree = buildGameTree(gameState, depth = 3)
 	}
 
 	private fun applyMove(multiplier: Int, currentPlayer: PlayerType): GameState {
@@ -46,14 +51,15 @@ class GameLogic {
 
 	fun getAIMove(): Int {
 		return when (aiAlgorithm) {
-			AIAlgorithm.MINIMAX -> minimax(gameState, depth = 3)
-			AIAlgorithm.ALPHA_BETA -> alphaBeta(gameState, Int.MIN_VALUE, Int.MAX_VALUE, depth = 3)
+			AIAlgorithm.MINIMAX -> minimax(gameTree!!, depth = 3, isMaximizing = true).first
+			AIAlgorithm.ALPHA_BETA -> alphaBeta(gameTree!!, Int.MIN_VALUE, Int.MAX_VALUE, depth = 3, isMaximizing = true).first
 		}
 	}
 
 	fun resetGame() {
 		gameState = GameState(0, 0, 0, PlayerType.HUMAN)
 		gameSteps.clear()
+		gameTree = null
 	}
 
 	fun getGameState(): GameState = gameState
@@ -76,61 +82,76 @@ class GameLogic {
 
 	fun getGameSteps(): List<String> = gameSteps
 
-	private fun minimax(state: GameState, depth: Int = 3, isMaximizing: Boolean = true): Int {
-		if (depth == 0 || state.isGameOver) return evaluateState(state)
+	data class GameTreeNode(
+		val state: GameState,
+		val children: MutableList<GameTreeNode> = mutableListOf(),
+		val move: Int? = null
+	)
+
+	private fun buildGameTree(state: GameState, depth: Int): GameTreeNode {
+		val root = GameTreeNode(state)
+		if (depth == 0 || state.isGameOver) return root
+
 		val possibleMoves = listOf(3, 4, 5)
-		return if (isMaximizing) {
+		for (move in possibleMoves) {
+			val newState = simulateMove(state, move)
+			val childNode = buildGameTree(newState, depth - 1)
+			root.children.add(childNode)
+		}
+		return root
+	}
+
+	private fun minimax(node: GameTreeNode, depth: Int, isMaximizing: Boolean): Pair<Int, Int> {
+		if (depth == 0 || node.state.isGameOver) return Pair(evaluateState(node.state), node.move ?: 3)
+
+		if (isMaximizing) {
 			var bestValue = Int.MIN_VALUE
 			var bestMove = 3
-			for (move in possibleMoves) {
-				val newState = simulateMove(state, move)
-				val value = minimax(newState, depth - 1, false)
+			for (child in node.children) {
+				val (value, _) = minimax(child, depth - 1, false)
 				if (value > bestValue) {
 					bestValue = value
-					bestMove = move
+					bestMove = child.move ?: 3
 				}
 			}
-			bestMove
+			return Pair(bestValue, bestMove)
 		} else {
 			var bestValue = Int.MAX_VALUE
-			for (move in possibleMoves) {
-				val newState = simulateMove(state, move)
-				val value = minimax(newState, depth - 1, true)
+			for (child in node.children) {
+				val (value, _) = minimax(child, depth - 1, true)
 				bestValue = minOf(bestValue, value)
 			}
-			bestValue
+			return Pair(bestValue, node.move ?: 3)
 		}
 	}
 
-	private fun alphaBeta(state: GameState, alpha: Int, beta: Int, depth: Int = 3, isMaximizing: Boolean = true): Int {
+	private fun alphaBeta(node: GameTreeNode, alpha: Int, beta: Int, depth: Int, isMaximizing: Boolean): Pair<Int, Int> {
 		var alphaVar = alpha
 		var betaVar = beta
-		if (depth == 0 || state.isGameOver) return evaluateState(state)
-		val possibleMoves = listOf(3, 4, 5)
-		return if (isMaximizing) {
+		if (depth == 0 || node.state.isGameOver) return Pair(evaluateState(node.state), node.move ?: 3)
+
+		if (isMaximizing) {
 			var bestValue = Int.MIN_VALUE
 			var bestMove = 3
-			for (move in possibleMoves) {
-				val newState = simulateMove(state, move)
-				val value = alphaBeta(newState, alphaVar, betaVar, depth - 1, false)
+			for (child in node.children) {
+				val (value, _) = alphaBeta(child, alphaVar, betaVar, depth - 1, false)
 				if (value > bestValue) {
 					bestValue = value
-					bestMove = move
+					bestMove = child.move ?: 3
 				}
 				alphaVar = maxOf(alphaVar, value)
 				if (betaVar <= alphaVar) break
 			}
-			bestMove
+			return Pair(bestValue, bestMove)
 		} else {
 			var bestValue = Int.MAX_VALUE
-			for (move in possibleMoves) {
-				val newState = simulateMove(state, move)
-				val value = alphaBeta(newState, alphaVar, betaVar, depth - 1, true)
+			for (child in node.children) {
+				val (value, _) = alphaBeta(child, alphaVar, betaVar, depth - 1, true)
 				bestValue = minOf(bestValue, value)
 				betaVar = minOf(betaVar, value)
 				if (betaVar <= alphaVar) break
 			}
-			bestValue
+			return Pair(bestValue, node.move ?: 3)
 		}
 	}
 
@@ -147,13 +168,15 @@ class GameLogic {
 	}
 
 	private fun evaluateState(state: GameState): Int {
-		val adjustedPoints = if (state.totalPoints % 2 == 0) {
-			state.totalPoints - state.gameBank
-		} else {
-			state.totalPoints + state.gameBank
-		}
+		val pointValue = state.totalPoints
+		val bankValue = state.gameBank * 2
+		val slowDown = -(state.currentNumber / 100)
+		val parityBonus = if (state.totalPoints % 2 == 0) 3 else -3
+		val lastDigitBonus = if (state.currentNumber % 10 == 0 || state.currentNumber % 10 == 5) 2 else 0
+		val nearEndPenalty = if (state.currentNumber >= 2500 && state.totalPoints < 0) -10 else 0
 
-		return -adjustedPoints * 10 + state.gameBank * 15 - (state.currentNumber / 40)
+		return pointValue + bankValue + slowDown + parityBonus + lastDigitBonus + nearEndPenalty
 	}
 }
+
 
